@@ -14,7 +14,8 @@ type arguments struct {
 }
 
 var (
-	args arguments
+	args  arguments
+	ascii = []rune("1234567890-=qwertyuiop[]asdfghjkl;#zxcvbnm,./¬!£$%^&*()_+QWERTYUIOP{}ASDFGHJKL:@~|ZXCVBNM<>?")
 )
 
 func main() {
@@ -31,12 +32,24 @@ func generateRandom() (random []byte) {
 	return
 }
 
+func getAscii(random []byte) string {
+	output := make([]rune, len(random))
+
+	for i := 0; i < len(random); i++ {
+		output[i] = ascii[random[i]%byte(len(ascii))]
+	}
+
+	return string(output)
+}
+
 func printRandom(random []byte) {
 	switch args.outputType {
 	case "hex":
 		fmt.Println(hex.EncodeToString(random))
 	case "base64":
 		fmt.Println(base64.StdEncoding.EncodeToString(random))
+	case "ascii":
+		fmt.Println(getAscii(random))
 	}
 }
 
