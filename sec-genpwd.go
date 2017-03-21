@@ -2,6 +2,7 @@ package main
 
 import (
 	"crypto/rand"
+	"encoding/base32"
 	"encoding/base64"
 	"encoding/hex"
 	"flag"
@@ -32,7 +33,7 @@ func generateRandom() (random []byte) {
 	return
 }
 
-func getAscii(random []byte) string {
+func getASCII(random []byte) string {
 	output := make([]rune, len(random))
 
 	for i := 0; i < len(random); i++ {
@@ -46,10 +47,12 @@ func printRandom(random []byte) {
 	switch args.outputType {
 	case "hex":
 		fmt.Println(hex.EncodeToString(random))
+	case "base32":
+		fmt.Println(base32.StdEncoding.EncodeToString(random))
 	case "base64":
 		fmt.Println(base64.StdEncoding.EncodeToString(random))
 	case "ascii":
-		fmt.Println(getAscii(random))
+		fmt.Println(getASCII(random))
 	}
 }
 

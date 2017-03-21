@@ -1,0 +1,1 @@
+TODO [ ] allow users to write to clipboard, console or file
