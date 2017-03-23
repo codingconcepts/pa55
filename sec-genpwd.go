@@ -59,7 +59,7 @@ func printRandom(random []byte) {
 func parseArgs() {
 	args = arguments{}
 
-	flag.StringVar(&args.outputType, "out", "hex", "specify the output encoding ([hex, base64])")
+	flag.StringVar(&args.outputType, "out", "hex", "specify the output encoding ([ascii, hex, base32, base64])")
 	flag.IntVar(&args.length, "len", 20, "specify the output length")
 	flag.Parse()
 }
