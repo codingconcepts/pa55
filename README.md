@@ -16,7 +16,7 @@ $ pa55 --out base32 --len 50
 ## Arguments
 
 ``` bash
-$pa55
+$ pa55
 Usage of pa55:
   -len int
         specify the output length (default 20)
