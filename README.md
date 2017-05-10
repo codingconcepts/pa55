@@ -26,7 +26,7 @@ Usage of pa55:
 
 Available output types:
 
-* ascii
+* hex
 ``` bash
 $ pa55 --out hex --len 20
 0a06f90380e443389d77c5d4809a749be2f28af9
@@ -44,7 +44,7 @@ $ pa55 --out base64 --len 20
 tJG/ih/TNNnr4+7bSaGC+CqkBqo=
 ```
 
-* hex
+* ascii
 ``` bash
 $ pa55 --out ascii --len 20
 !Qv2ACRj0c1BjsQP8x*D
