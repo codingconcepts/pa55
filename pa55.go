@@ -7,6 +7,8 @@ import (
 	"encoding/hex"
 	"flag"
 	"fmt"
+	"io"
+	"log"
 )
 
 type arguments struct {
@@ -22,13 +24,17 @@ var (
 func main() {
 	parseArgs()
 
-	random := generateRandom()
+	random, err := generateRandom()
+	if err != nil {
+		log.Fatalf("error generating random data: %s", err)
+	}
+
 	printRandom(random)
 }
 
-func generateRandom() (random []byte) {
+func generateRandom() (random []byte, err error) {
 	random = make([]byte, args.length)
-	rand.Read(random)
+	_, err = io.ReadFull(rand.Reader, random)
 
 	return
 }
