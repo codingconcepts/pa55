@@ -19,9 +19,9 @@ $ pa55 --out base32 --len 50
 $ pa55
 Usage of pa55:
   -len int
-        specify the output length (default 20)
+        specify the output length (default 50)
   -out string
-        specify the output encoding ([ascii, hex, base32, base64]) (default "hex")
+        specify the output encoding ([ascii, hex, base32, base64]) (default "ascii")
 ```
 
 Available output types:
