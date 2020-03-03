@@ -14,15 +14,22 @@ import (
 type arguments struct {
 	length     int
 	outputType string
+	special    string
 }
 
 var (
-	args  arguments
-	ascii = []rune("1234567890-=qwertyuiop[]asdfghjkl;#zxcvbnm,./¬!£$%^&*()_+QWERTYUIOP{}ASDFGHJKL:@~|ZXCVBNM<>?")
+	args    arguments
+	ascii   = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
+	special = "-=[];#,./¬!£$%^&*()_+{}:@~|<>?"
 )
 
 func main() {
-	parseArgs()
+	args = arguments{}
+
+	flag.StringVar(&args.outputType, "out", "ascii", "specify the output encoding ([ascii, hex, base32, base64])")
+	flag.StringVar(&args.special, "special", special, "special character set to use in ascii passwords")
+	flag.IntVar(&args.length, "len", 50, "specify the output length")
+	flag.Parse()
 
 	random, err := generateRandom()
 	if err != nil {
@@ -40,10 +47,12 @@ func generateRandom() (random []byte, err error) {
 }
 
 func getASCII(random []byte) string {
+	set := []rune(ascii + args.special)
 	output := make([]rune, len(random))
+	fmt.Println(string(set))
 
 	for i := 0; i < len(random); i++ {
-		output[i] = ascii[random[i]%byte(len(ascii))]
+		output[i] = set[random[i]%byte(len(set))]
 	}
 
 	return string(output)
@@ -60,12 +69,4 @@ func printRandom(random []byte) {
 	case "ascii":
 		fmt.Println(getASCII(random))
 	}
-}
-
-func parseArgs() {
-	args = arguments{}
-
-	flag.StringVar(&args.outputType, "out", "ascii", "specify the output encoding ([ascii, hex, base32, base64])")
-	flag.IntVar(&args.length, "len", 50, "specify the output length")
-	flag.Parse()
 }
