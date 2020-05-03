@@ -10,7 +10,8 @@ $ go get -u github.com/codingconcepts/pa55
 ## Usage
 
 ``` bash
-$ pa55 --out base32 --len 50
+$ pa55
+**************************************************
 ```
 
 ## Arguments
