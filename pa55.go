@@ -9,64 +9,63 @@ import (
 	"fmt"
 	"io"
 	"log"
-)
+	"strings"
 
-type arguments struct {
-	length     int
-	outputType string
-	special    string
-}
-
-var (
-	args    arguments
-	ascii   = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM"
-	special = "-=[];#,./¬!£$%^&*()_+{}:@~|<>?"
+	"github.com/atotto/clipboard"
 )
 
 func main() {
-	args = arguments{}
+	ascii := " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
 
-	flag.StringVar(&args.outputType, "out", "ascii", "specify the output encoding ([ascii, hex, base32, base64])")
-	flag.StringVar(&args.special, "special", special, "special character set to use in ascii passwords")
-	flag.IntVar(&args.length, "len", 50, "specify the output length")
+	out := flag.String("out", "ascii", "specify the output encoding ([ascii, hex, base32, base64])")
+	length := flag.Int("len", 50, "specify the output length")
+	set := flag.String("set", ascii, "character set to use for passwords")
 	flag.Parse()
 
-	random, err := generateRandom()
+	random, err := generateRandom(*length)
 	if err != nil {
 		log.Fatalf("error generating random data: %s", err)
 	}
 
-	printRandom(random)
+	randomStr := prepare(*set, *out, random)
+	if err = clipboard.WriteAll(randomStr); err != nil {
+		log.Fatalf("error copying password to clipboard: %v", err)
+	}
+
+	fmt.Println(strings.Repeat("*", len(randomStr)))
 }
 
-func generateRandom() (random []byte, err error) {
-	random = make([]byte, args.length)
+func generateRandom(length int) (random []byte, err error) {
+	random = make([]byte, length)
 	_, err = io.ReadFull(rand.Reader, random)
 
 	return
 }
 
-func getASCII(random []byte) string {
-	set := []rune(ascii + args.special)
+func prepare(set string, out string, random []byte) (output string) {
+	switch out {
+	case "hex":
+		return hex.EncodeToString(random)
+	case "base32":
+		return base32.StdEncoding.EncodeToString(random)
+	case "base64":
+		return base64.StdEncoding.EncodeToString(random)
+	case "ascii":
+		return getASCII(set, random)
+	default:
+		log.Fatalf("invalid output type %q", out)
+	}
+
+	return ""
+}
+
+func getASCII(set string, random []byte) string {
+	setRunes := []rune(set)
 	output := make([]rune, len(random))
-	fmt.Println(string(set))
 
 	for i := 0; i < len(random); i++ {
-		output[i] = set[random[i]%byte(len(set))]
+		output[i] = setRunes[random[i]%byte(len(setRunes))]
 	}
 
 	return string(output)
-}
-
-func printRandom(random []byte) {
-	switch args.outputType {
-	case "hex":
-		fmt.Println(hex.EncodeToString(random))
-	case "base32":
-		fmt.Println(base32.StdEncoding.EncodeToString(random))
-	case "base64":
-		fmt.Println(base64.StdEncoding.EncodeToString(random))
-	case "ascii":
-		fmt.Println(getASCII(random))
-	}
 }
