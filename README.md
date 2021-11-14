@@ -22,7 +22,7 @@ Usage of pa55:
   -len int
         specify the output length (default 50)
   -out string
-        specify the output encoding ([ascii, hex, base32, base64]) (default "ascii")
+        specify the output encoding ([ascii, hex, base32, base64, unicode]) (default "ascii")
   -set string
         character set to use for passwords (default " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~")
 ```
@@ -59,4 +59,12 @@ $ pa55 --out ascii --len 20
 ********************
 
 !Qv2ACRj0c1BjsQP8x*D // -> To clipboard
+```
+
+* unicode
+``` bash
+$ pass --out unicode --len 20
+********************************************************
+
+៧Ἀจያا्༙॰क໅྾Ҍཙ෰᠛ǃΣႍឫႶ // -> To clipboard
 ```

@@ -23,7 +23,6 @@ var (
 		between(1575, 1610), between(1920, 1969), between(2304, 2431), between(2433, 2554), between(2944, 3071),
 		between(3456, 3583), between(3585, 3654), between(3712, 3839), between(3840, 4031), between(4096, 4255),
 		between(4256, 4351), between(4608, 4991), between(6016, 6143), between(6144, 6319), between(7936, 8190),
-		between(12353, 12435), between(12449, 12531), between(12593, 12686), between(19968, 40869),
 	)
 )
 
