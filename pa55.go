@@ -27,7 +27,7 @@ var (
 )
 
 func main() {
-	out := flag.String("out", "ascii", "specify the output encoding ([ascii, hex, base32, base64])")
+	out := flag.String("out", "ascii", "specify the output encoding ([ascii, unicode, hex, base32, base64])")
 	length := flag.Int("len", 50, "specify the output length")
 	set := flag.String("set", ascii, "character set to use for passwords")
 	flag.Parse()
