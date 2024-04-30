@@ -30,6 +30,7 @@ func main() {
 	out := flag.String("out", "ascii", "specify the output encoding ([ascii, unicode, hex, base32, base64])")
 	length := flag.Int("len", 50, "specify the output length")
 	set := flag.String("set", ascii, "character set to use for passwords")
+	print := flag.Bool("print", false, "print the password rather than copying it")
 	flag.Parse()
 
 	random, err := generateRandom(*length)
@@ -38,6 +39,12 @@ func main() {
 	}
 
 	randomStr := prepare(*set, *out, random)
+
+	if *print {
+		fmt.Println(randomStr)
+		return
+	}
+
 	if err = clipboard.WriteAll(randomStr); err != nil {
 		log.Fatalf("error copying password to clipboard: %v", err)
 	}

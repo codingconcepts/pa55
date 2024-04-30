@@ -23,6 +23,8 @@ Usage of pa55:
         specify the output length (default 50)
   -out string
         specify the output encoding ([ascii, hex, base32, base64, unicode]) (default "ascii")
+  -print
+        print the password rather than copying it
   -set string
         character set to use for passwords (default " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~")
 ```
